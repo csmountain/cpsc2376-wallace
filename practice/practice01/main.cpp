@@ -1,7 +1,9 @@
+//Copilot and AI used in the code for a template. Was also used to generate certain bug fixes, including looping from bad user input.
+//Added comments to the code. Generative AI helped with creating the comments.
 #include <iostream>
 #include <vector>
-#include <numeric>
-#include <limits>
+#include <numeric> //added with AI help
+#include <limits> //added with AI help
 
 // Function to print the menu
 void printMenu()
@@ -47,8 +49,9 @@ void doubleVector(std::vector<int> &vec)
     for (size_t i = 0; i < vec.size(); ++i)
     {
         vec.at(i) *= 2;
-        std::cout << "\nDoubling vector(s)!";
+        
     }
+    std::cout << "\nDoubling item(s) in vector.\n";
 }
 
 // Function to find the sum of the vector elements
@@ -82,9 +85,14 @@ int main()
 
     while (true)
     {
+        //If-else statements that handle user input and call the appropriate function.
         printMenu();
         std::cout << "Enter your choice: ";
-        std::cin >> choice;
+        if (!(std::cin >> choice)) {
+            std::cin.clear(); // clear the error flag
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard invalid input
+            std::cout << "";
+        }
 
         if (choice == 1)
         {
@@ -113,7 +121,7 @@ int main()
         }
         else
         {
-            std::cout << "Invalid choice. Please try again.\n";
+            std::cout << "\nInvalid choice. Please try again.\n";
         }
     }
 
