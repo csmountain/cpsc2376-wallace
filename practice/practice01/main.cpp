@@ -1,9 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <numeric>
+#include <limits>
 
+// Function to print the menu
 void printMenu()
 {
+    std::cout << "----------------------------------------------------------\n";
     std::cout << "Menu:\n";
     std::cout << "1. Add item to vector\n";
     std::cout << "2. Print vector\n";
@@ -13,49 +16,60 @@ void printMenu()
     std::cout << "6. Exit\n";
 }
 
-void addItem(std::vector<int> &vec)
+// Function to add an item to the vector
+void addItem(std::vector<int>& vec)
 {
     int item;
     std::cout << "Enter item to add: ";
-    std::cin >> item;
+    while (!(std::cin >> item)) {
+        std::cin.clear(); // clear the error flag
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard invalid input
+        std::cout << "Invalid input. Please enter a number: ";
+    }
+    std::cout << "\nAdding " << item << " to the vector.\n";
     vec.push_back(item);
 }
 
+// Function to print the vector
 void printVector(const std::vector<int> &vec)
 {
-    std::cout << "Vector: ";
-    for (int item : vec)
+    std::cout << "\nVector: ";
+    for (size_t i = 0; i < vec.size(); ++i)
     {
-        std::cout << item << " ";
+        std::cout << vec.at(i) << " ";
     }
     std::cout << std::endl;
 }
 
+// Function to double the values in the vector
 void doubleVector(std::vector<int> &vec)
 {
-    for (int &item : vec)
+    for (size_t i = 0; i < vec.size(); ++i)
     {
-        item *= 2;
+        vec.at(i) *= 2;
+        std::cout << "\nDoubling vector(s)!";
     }
 }
 
+// Function to find the sum of the vector elements
 void findSum(const std::vector<int> &vec)
 {
     int sum = std::accumulate(vec.begin(), vec.end(), 0);
-    std::cout << "Sum: " << sum << std::endl;
+    std::cout << "\nSum: " << sum << std::endl;
 }
 
+// Function to print multiples of a user-defined value
 void printMultiples(const std::vector<int> &vec)
-{
+{ 
     int value;
     std::cout << "Enter value to find multiples of: ";
     std::cin >> value;
-    std::cout << "Multiples of " << value << ": ";
-    for (int item : vec)
+    std::cout << "\nMultiples of " << value << ": ";
+    for (size_t i = 0; i < vec.size(); ++i)
     {
-        if (item % value == 0)
+        if (vec.at(i) % value == 0)
         {
-            std::cout << item << " ";
+            std::cout << vec.at(i) << " ";
         }
     }
     std::cout << std::endl;
