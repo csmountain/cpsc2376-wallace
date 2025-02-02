@@ -1,8 +1,10 @@
-// Copilot and AI used in the code for a template. Personal changes, including switch statements to if else statements were made.
+// Copilot and AI used in the code for a template. Personal changes, including switch statements to if else statements were made. Comments were also helped by AI. Some bug fixes were also made with AI help. 
+// Coding GUI is framed from the given example.
 #include <iostream>
 #include <fstream>
 #include <iomanip>
 #include <string>
+#include <limits>
 
 // Function to read the balance from the file
 double readBalanceFromFile(const std::string &filename)
@@ -42,12 +44,18 @@ void checkBalance(double balance)
 double deposit(double balance)
 {
     double amount;
-    std::cout << "Enter deposit amount: ";
-    std::cin >> amount;
-    if (amount <= 0)
+    while (true)
     {
-        std::cerr << "Error: Deposit amount must be positive." << std::endl;
-        return balance;
+        std::cout << "Enter deposit amount: ";
+        std::cin >> amount;
+        if (std::cin.fail() || amount < 0)
+        {
+            std::cin.clear(); // Clear the error flag
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore the rest of the input
+            std::cerr << "Error: Deposit amount must be a positive number." << std::endl;
+            continue;
+        }
+        break;
     }
     balance += amount;
     std::cout << "Deposit successful. Your new balance is: $" << std::fixed << std::setprecision(2) << balance << std::endl;
@@ -58,17 +66,23 @@ double deposit(double balance)
 double withdraw(double balance)
 {
     double amount;
-    std::cout << "Enter withdrawal amount: ";
-    std::cin >> amount;
-    if (amount <= 0)
+    while (true)
     {
-        std::cerr << "Error: Withdrawal amount must be positive." << std::endl;
-        return balance;
-    }
-    if (amount > balance)
-    {
-        std::cerr << "Error: Insufficient funds. Your balance is $" << std::fixed << std::setprecision(2) << balance << std::endl;
-        return balance;
+        std::cout << "Enter withdrawal amount: ";
+        std::cin >> amount;
+        if (std::cin.fail() || amount < 0)
+        {
+            std::cin.clear(); // Clear the error flag
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore the rest of the input
+            std::cerr << "Error: Withdrawal amount must be a positive number." << std::endl;
+            continue;
+        }
+        if (amount > balance)
+        {
+            std::cerr << "Error: Insufficient funds. Your balance is $" << std::fixed << std::setprecision(2) << balance << std::endl;
+            continue;
+        }
+        break;
     }
     balance -= amount;
     std::cout << "Withdrawal successful. Your new balance is: $" << std::fixed << std::setprecision(2) << balance << std::endl;
@@ -109,6 +123,15 @@ int main()
         int choice;
         std::cin >> choice;
 
+        if (std::cin.fail() || choice < 1 || choice > 4) // Added range check
+        {
+            std::cin.clear(); // Clear the error flag
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore the rest of the input
+            std::cerr << "Invalid input. Please enter a number between 1 and 4.\n";
+            continue;
+        }
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore any extra input on the same line (bug fix)
+
         if (choice == 1)
         {
             checkBalance(balance);
@@ -127,10 +150,6 @@ int main()
         {
             std::cout << "Exiting...\n";
             break;
-        }
-        else
-        {
-            std::cerr << "Invalid choice. Please try again.\n";
         }
     }
 
