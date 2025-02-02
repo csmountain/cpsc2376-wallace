@@ -1,3 +1,5 @@
-build/
+practice/practice01/build/
+practice/practice01/build/Debug/
 .vscode/
-debug/
+main.o
+outDebug
