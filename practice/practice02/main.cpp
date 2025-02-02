@@ -1,4 +1,4 @@
-// Copilot and AI used in the code for a template
+// Copilot and AI used in the code for a template. Personal changes, including switch statements to if else statements were made.
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -77,6 +77,62 @@ double withdraw(double balance)
 
 int main()
 {
+    const std::string filename = "account_balance.txt";
+    double balance;
 
+    // Check if the file exists
+    std::ifstream file(filename);
+    if (!file.is_open())
+    {
+        // File does not exist, create it and set initial balance to $100.00
+        std::cout << "Welcome to Your Bank Account!" << std::endl;
+        std::cout << "Initializing account with $100.00..." << std::endl;
+        balance = 100.00;
+        writeBalanceToFile(filename, balance);
+    }
+    else
+    {
+        // File exists, read the current balance
+        balance = readBalanceFromFile(filename);
+        std::cout << "Welcome to Your Bank Account!" << std::endl;
+        std::cout << "Your current balance is: $" << std::fixed << std::setprecision(2) << balance << std::endl;
+    }
 
+    while (true)
+    {
+        std::cout << "\nMenu:\n";
+        std::cout << "1. Check Balance\n";
+        std::cout << "2. Deposit Money\n";
+        std::cout << "3. Withdraw Money\n";
+        std::cout << "4. Exit\n";
+        std::cout << "Enter your choice: ";
+        int choice;
+        std::cin >> choice;
+
+        if (choice == 1)
+        {
+            checkBalance(balance);
+        }
+        else if (choice == 2)
+        {
+            balance = deposit(balance);
+            writeBalanceToFile(filename, balance);
+        }
+        else if (choice == 3)
+        {
+            balance = withdraw(balance);
+            writeBalanceToFile(filename, balance);
+        }
+        else if (choice == 4)
+        {
+            std::cout << "Exiting...\n";
+            break;
+        }
+        else
+        {
+            std::cerr << "Invalid choice. Please try again.\n";
+        }
+    }
+
+    return 0;
 }
