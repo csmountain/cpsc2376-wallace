@@ -1,4 +1,4 @@
-Formatting courtesy of Carter Wallace. AI used for speedwriting the points. Bugs were already fixed from own code.
+Formatting courtesy of Carter Wallace. AI used to find out how to create headers and highlighted points. Problems found by me but rewritten by AI For formatting and clarity.
 
 # Fixes
 

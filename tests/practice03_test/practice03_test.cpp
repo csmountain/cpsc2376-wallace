@@ -1,5 +1,5 @@
 // AI Was used to get a template for testing. Specific fixes were done by me. Comments were also added for clarity. AI Used to help with google test process on VS 2022
-
+// gtest files were from VS 2022 for Google Testing, as well as pch.h
 #include <gtest/gtest.h>
 #include "mathUtils.h"
 #include "pch.h"

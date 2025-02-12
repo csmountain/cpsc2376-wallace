@@ -1,5 +1,4 @@
 // Fixed Code. AI was used to help with formatting, finding std::invalid argument fixes during unit testing.
-
 #include <iostream>
 #include <vector>
 
