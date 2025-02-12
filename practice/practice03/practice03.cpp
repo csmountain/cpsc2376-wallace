@@ -1,4 +1,5 @@
-// practice03.cpp (Buggy Code to be tested)
+// Fixed Code. AI was used to help with formatting, finding std::invalid argument fixes during unit testing.
+
 #include <iostream>
 #include <vector>
 
@@ -8,8 +9,8 @@ public:
     static int sumRange(int start, int end)
     {
         int sum = 0;
-        for (int i = start; i < end; i++)
-        { // Bug: Off-by-one error
+        for (int i = start; i <= end; i++) // Fix includes '=' now
+        { 
             sum += i;
         }
         return sum;
@@ -17,10 +18,10 @@ public:
 
     static bool containsNegative(const std::vector<int> &numbers)
     {
-        for (size_t i = 0; i <= numbers.size(); i++)
-        { // Bug
-            if (numbers[i] > 0)
-            { // Bug
+        for (size_t i = 0; i < numbers.size(); i++) // Fixed it to correct loop condition
+        { 
+            if (numbers[i] < 0) // Fix: Checks for negative numbers now
+            { 
                 return true;
             }
         }
@@ -30,12 +31,12 @@ public:
     static int findMax(const std::vector<int> &numbers)
     {
         if (numbers.empty())
-            return 0; // Bug
+            throw std::invalid_argument("Cannot find max of an empty vector."); // Fixed to where it correctly returns that it is invalid.
         int maxVal = numbers[0];
-        for (size_t i = 1; i <= numbers.size(); i++)
-        { // Bug
-            if (numbers[i] >= maxVal)
-            { // Bug
+        for (size_t i = 1; i < numbers.size(); i++) // Fixed it to correct loop condition
+        { 
+            if (numbers[i] > maxVal) // Fixes: Correct comparison
+            { 
                 maxVal = numbers[i];
             }
         }
