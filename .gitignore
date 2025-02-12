@@ -3,3 +3,5 @@ practice/practice01/build/Debug/
 .vscode/
 main.o
 outDebug
+tests/practice03_test/build/
+tests/practice03_test/build/Debug
