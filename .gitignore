@@ -7,5 +7,7 @@ tests/practice03_test/build/
 tests/practice03_test/build/Debug/
 tests/practice03/build/
 tests/practice03/build/Debug
-.o
+**.o
 practice03.o
+**/build/
+**/Debug/
