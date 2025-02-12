@@ -4,4 +4,7 @@ practice/practice01/build/Debug/
 main.o
 outDebug
 tests/practice03_test/build/
-tests/practice03_test/build/Debug
+tests/practice03_test/build/Debug/
+tests/practice03/build/
+tests/practice03/build/Debug
+.o
