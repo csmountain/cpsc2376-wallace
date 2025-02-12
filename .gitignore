@@ -8,3 +8,4 @@ tests/practice03_test/build/Debug/
 tests/practice03/build/
 tests/practice03/build/Debug
 .o
+practice03.o
