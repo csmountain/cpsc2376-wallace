@@ -1,6 +1,8 @@
 #include <iostream>
 #include <iomanip>
 #include <limits>
+#include <string>
+#include <sstream>
 
 double convertTemperature(double temp, char scale = 'F')
 {
@@ -31,11 +33,13 @@ int main()
     int option;
     double temperature;
     char scale;
+    std::string input;
 
     while (true)
     {
         displayMenu();
-        std::cin >> option;
+        std::getline(std::cin, input);
+        std::stringstream(input) >> option;
 
         if (option == 1)
         {
@@ -51,13 +55,27 @@ int main()
         }
         else
         {
-            std::cerr << "\nInvalid option selected. Please try again." << std::endl;
-            std::cin.clear(); // clear the error flag
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard invalid input
+            std::cerr << "\nInvalid option selected. Please try again.\n"
+                      << std::endl;
         }
     }
 
-    std::cin >> temperature;
+    while (true)
+    {
+        std::cin >> input;
+        std::stringstream ss(input);
+        if (ss >> temperature)
+        {
+            break;
+        }
+        else
+        {
+            std::cerr << "Invalid temperature input. Please enter a valid number: ";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    }
+
     double convertedTemp = convertTemperature(temperature, scale);
 
     if (scale == 'F')
