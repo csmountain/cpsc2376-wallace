@@ -1,3 +1,4 @@
+//AI Used to help with creating templates, some bug fixes, and comments. UI and large amounts of bugfixing done manually.
 #include <iostream>
 #include <iomanip>
 #include <limits>
@@ -25,7 +26,7 @@ void displayMenu()
 {
     std::cout << "1. Convert Celsius to Fahrenheit" << std::endl;
     std::cout << "2. Convert Fahrenheit to Celsius" << std::endl;
-    std::cout << "Choose an option: ";
+    std::cout << "\nChoose an option: ";
 }
 
 int main()
@@ -44,13 +45,13 @@ int main()
         if (option == 1)
         {
             scale = 'F';
-            std::cout << "Enter temperature in Celsius: ";
+            std::cout << "\nEnter temperature in Celsius: ";
             break;
         }
         else if (option == 2)
         {
             scale = 'C';
-            std::cout << "Enter temperature in Fahrenheit: ";
+            std::cout << "\nEnter temperature in Fahrenheit: ";
             break;
         }
         else
@@ -70,7 +71,7 @@ int main()
         }
         else
         {
-            std::cerr << "Invalid temperature input. Please enter a valid number: ";
+            std::cerr << "\nInvalid temperature input. Please enter a valid number: ";
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
@@ -80,11 +81,11 @@ int main()
 
     if (scale == 'F')
     {
-        std::cout << "Converted: " << std::fixed << std::setprecision(2) << convertedTemp << "°F" << std::endl;
+        std::cout << "\nConverted: " << std::fixed << std::setprecision(2) << convertedTemp << "°F" << std::endl;
     }
     else if (scale == 'C')
     {
-        std::cout << "Converted: " << std::fixed << std::setprecision(2) << convertedTemp << "°C" << std::endl;
+        std::cout << "\nConverted: " << std::fixed << std::setprecision(2) << convertedTemp << "°C" << std::endl;
     }
 
     return 0;

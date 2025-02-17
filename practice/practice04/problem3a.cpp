@@ -1,3 +1,4 @@
+// AI Used to help with creating templates, some bug fixes, and comments. UI and large amounts of bugfixing done manually.
 #include <iostream>
 #include <list>
 #include <string>
@@ -6,11 +7,11 @@
 
 void displayMenu()
 {
-    std::cout << "\n1. Add Task" << std::endl;
+    std::cout << "1. Add Task" << std::endl;
     std::cout << "2. Remove Task" << std::endl;
     std::cout << "3. Show Tasks" << std::endl;
     std::cout << "4. Exit" << std::endl;
-    std::cout << "Choice: ";
+    std::cout << "\nChoice: ";
 }
 
 void addTask(std::list<std::string> &tasks)
@@ -19,26 +20,36 @@ void addTask(std::list<std::string> &tasks)
     std::cout << "\nEnter task: ";
     std::getline(std::cin, task);
     tasks.push_back(task);
-    std::cout << "Task added!" << std::endl;
+    std::cout << "\nTask added!\n" << std::endl;
 }
 
 void removeTask(std::list<std::string> &tasks)
 {
-    int taskNumber;
-    std::cout << "\nEnter task number to remove: ";
-    std::cin >> taskNumber;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-    if (taskNumber > 0 && taskNumber <= tasks.size())
+    if (tasks.empty())
     {
-        auto it = tasks.begin();
-        std::advance(it, taskNumber - 1);
-        tasks.erase(it);
-        std::cout << "Task removed!" << std::endl;
+        std::cerr << "\nNo tasks available to remove.\n" << std::endl;
+        return;
     }
-    else
+
+    std::string input;
+    int taskNumber;
+    while (true)
     {
-        std::cerr << "Invalid task number!" << std::endl;
+        std::cout << "\nEnter task number to remove: ";
+        std::getline(std::cin, input);
+        std::istringstream iss(input);
+        if (iss >> taskNumber && iss.eof() && taskNumber > 0 && taskNumber <= tasks.size())
+        {
+            auto it = tasks.begin();
+            std::advance(it, taskNumber - 1);
+            tasks.erase(it);
+            std::cout << "\nTask removed!\n" << std::endl;
+            break;
+        }
+        else
+        {
+            std::cerr << "\nInvalid task number! Please try again." << std::endl;
+        }
     }
 }
 
@@ -47,14 +58,14 @@ void showTasks(const std::list<std::string> &tasks)
     std::cout << "\nTasks:" << std::endl;
     if (tasks.empty())
     {
-        std::cout << "No tasks available." << std::endl;
+        std::cout << "\nNo tasks available.\n" << std::endl;
     }
     else
     {
         int taskNumber = 1;
         for (const auto &task : tasks)
         {
-            std::cout << taskNumber << ". " << task << std::endl;
+            std::cout << "\nTask " << taskNumber << ". " << task << "\n" << std::endl;
             ++taskNumber;
         }
     }
@@ -92,12 +103,12 @@ int main()
             }
             else
             {
-                std::cerr << "Invalid choice! Please try again." << std::endl;
+                std::cerr << "\nInvalid input! Please enter a valid choice.\n" << std::endl;
             }
         }
         else
         {
-            std::cerr << "Invalid input! Please enter a valid choice." << std::endl;
+            std::cerr << "\nInvalid input! Please enter a valid choice.\n" << std::endl;
         }
     }
 
