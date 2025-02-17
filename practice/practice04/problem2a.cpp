@@ -6,34 +6,38 @@
 #include <cmath>
 
 template <typename T>
-T calculate(T num1, T num2, char op)
+T calculate(T num1, T num2, char &op)
 {
-    if (op == '+')
+    while (true)
     {
-        return num1 + num2;
-    }
-    else if (op == '-')
-    {
-        return num1 - num2;
-    }
-    else if (op == '*')
-    {
-        return num1 * num2;
-    }
-    else if (op == '/')
-    {
-        if (num2 != 0)
-            return num1 / num2;
+        if (op == '+')
+        {
+            return num1 + num2;
+        }
+        else if (op == '-')
+        {
+            return num1 - num2;
+        }
+        else if (op == '*')
+        {
+            return num1 * num2;
+        }
+        else if (op == '/')
+        {
+            if (num2 != 0)
+                return num1 / num2;
+            else
+            {
+                throw std::invalid_argument("\nResult: Division by zero\n");
+            }
+        }
         else
         {
-            std::cerr << "Error: Division by zero." << std::endl;
-            throw std::invalid_argument("Division by zero");
+            std::cerr << "\nError: Invalid operation. Please enter a valid operation \n\n(+, -, *, /): ";
+            std::string operation;
+            std::getline(std::cin, operation);
+            op = operation[0];
         }
-    }
-    else
-    {
-        std::cerr << "Error: Invalid operation." << std::endl;
-        throw std::invalid_argument("Invalid operation");
     }
 }
 
@@ -58,7 +62,7 @@ T getValidNumber(const std::string &prompt)
         }
         else
         {
-            std::cerr << "Invalid input. Please enter a valid number." << std::endl;
+            std::cerr << "\nError: Invalid input. Please enter a valid number." << std::endl;
         }
     }
 }
@@ -67,11 +71,11 @@ void printResult(double result)
 {
     if (result == static_cast<int>(result))
     {
-        std::cout << "Result: " << static_cast<int>(result) << std::endl;
+        std::cout << "\nResult: " << static_cast<int>(result) << std::endl;
     }
     else
     {
-        std::cout << "Result: " << result << std::endl;
+        std::cout << "\nResult: " << result << std::endl;
     }
 }
 
@@ -79,34 +83,42 @@ int main()
 {
     std::string input1, input2, operation;
     char op;
-
-    std::cout << "Enter first number: ";
-    std::getline(std::cin, input1);
-    std::cout << "Enter second number: ";
-    std::getline(std::cin, input2);
-    std::cout << "Enter operation (+, -, *, /): ";
-    std::getline(std::cin, operation);
-    op = operation[0];
-
     double num1, num2;
 
-    if (isDouble(input1))
+    while (true)
     {
-        num1 = std::stod(input1);
-    }
-    else
-    {
-        num1 = static_cast<double>(std::stoi(input1));
+        std::cout << "Enter first number: ";
+        std::getline(std::cin, input1);
+        std::istringstream iss1(input1);
+        if (iss1 >> num1)
+        {
+            break;
+        }
+        else
+        {
+            std::cerr << "\nError: Invalid input. Please enter a valid number.\n"
+                      << std::endl;
+        }
     }
 
-    if (isDouble(input2))
+    while (true)
     {
-        num2 = std::stod(input2);
+        std::cout << "\nEnter second number: ";
+        std::getline(std::cin, input2);
+        std::istringstream iss2(input2);
+        if (iss2 >> num2)
+        {
+            break;
+        }
+        else
+        {
+            std::cerr << "\nError: Invalid input. Please enter a valid number." << std::endl;
+        }
     }
-    else
-    {
-        num2 = static_cast<double>(std::stoi(input2));
-    }
+
+    std::cout << "\nEnter operation (+, -, *, /): ";
+    std::getline(std::cin, operation);
+    op = operation[0];
 
     try
     {
