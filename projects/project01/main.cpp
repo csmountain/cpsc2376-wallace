@@ -21,10 +21,10 @@ const int COLS = 7;
 
 void printRules()
 {
-    std::cout << "Welcome to Connect Four!\n";
-    std::cout << "Players take turns dropping colored discs into a vertical grid.\n";
-    std::cout << "The first player to connect four discs in a row (horizontally, vertically, or diagonally) wins.\n";
-    std::cout << "If the grid is full and no player has connected four discs, the game is a draw.\n";
+    std::cout << "Welcome to Connect Four!\n\n";
+    std::cout << "-- Two players will take turns dropping their pieces into a 7x6 grid. You are either team X's or team O's.\n";
+    std::cout << "-- The first player to connect four of their shape in a row (horizontally, vertically, or diagonally) wins.\n";
+    std::cout << "-- If the grid is full and no player has connected four pieces, the game is a draw. Have fun playing!\n";
 }
 
 std::vector<std::vector<Token>> makeBoard()
@@ -34,9 +34,12 @@ std::vector<std::vector<Token>> makeBoard()
 
 void printBoard(const std::vector<std::vector<Token>> &board)
 {
-    std::cout << " 1 2 3 4 5 6 7\n";
+    std::cout << "-------------------------------------------";
+    std::cout << "\n   1     2     3     4     5     6     7\n";
+    std::cout << "___________________________________________\n";
     for (const auto &row : board)
     {
+        std::cout << "|     |     |     |     |     |     |     |\n";
         for (const auto &cell : row)
         {
             char displayChar = ' ';
@@ -44,10 +47,13 @@ void printBoard(const std::vector<std::vector<Token>> &board)
                 displayChar = 'X';
             else if (cell == Token::PLAYER_2)
                 displayChar = 'O';
-            std::cout << "|" << displayChar;
+            std::cout << "|  " << displayChar << "  ";
         }
         std::cout << "|\n";
+        std::cout << "|_____|_____|_____|_____|_____|_____|_____|\n";
     }
+    std::cout << "\n   1     2     3     4     5     6     7\n";
+    std::cout << "-------------------------------------------\n";
 }
 
 bool dropToken(std::vector<std::vector<Token>> &board, int col, Token token)
@@ -156,15 +162,16 @@ void play(std::vector<std::vector<Token>> &board)
     {
         printBoard(board);
         int col;
-        std::cout << "Player " << (currentPlayer == Token::PLAYER_1 ? "1 (X)" : "2 (O)") << ", enter column (1-7): ";
+        std::cout << "\nPlayer " << (currentPlayer == Token::PLAYER_1 ? "1 (X)" : "2 (O)") << ", enter column (1-7): ";
         std::cin >> col;
         if (std::cin.fail() || col < 1 || col > 7 || !dropToken(board, col - 1, currentPlayer))
         {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "Invalid input. Please try again.\n";
+            std::cout << "\n-------------------------------------------\n\nInvalid input. Please try again.\n\n";
             continue;
         }
+        std::cout << "\n";
 
         GameState state = gameStatus(board);
         if (state != GameState::ONGOING)
@@ -172,15 +179,15 @@ void play(std::vector<std::vector<Token>> &board)
             printBoard(board);
             if (state == GameState::PLAYER_1_WINS)
             {
-                std::cout << "Player 1 (X) wins!\n";
+                std::cout << "\n-------------------------------------------\n\nPlayer 1 (X) wins!\n\n-------------------------------------------\n\n";
             }
             else if (state == GameState::PLAYER_2_WINS)
             {
-                std::cout << "Player 2 (O) wins!\n";
+                std::cout << "\n-------------------------------------------\nPlayer 2 (O) wins!\n-------------------------------------------\n";
             }
             else if (state == GameState::DRAW)
             {
-                std::cout << "The game is a draw!\n";
+                std::cout << "\n-------------------------------------------\nThe game is a draw!\n-------------------------------------------\n";
             }
             break;
         }
@@ -192,28 +199,27 @@ void play(std::vector<std::vector<Token>> &board)
 int main()
 {
     printRules();
-    std::cout << "Ready to play? Press y to start: ";
-    char startResponse;
-    std::cin >> startResponse;
+    std::cout << "\nReady to play? Press and enter anything to start: ";
+    std::cin.get();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cout << "\n";
 
-    if (startResponse == 'y' || startResponse == 'Y')
+    bool playAgain = true;
+    while (playAgain)
     {
-        bool playAgain = true;
-        while (playAgain)
+        auto board = makeBoard();
+        GameState state = GameState::ONGOING;
+        while (state == GameState::ONGOING)
         {
-            auto board = makeBoard();
-            GameState state = GameState::ONGOING;
-            while (state == GameState::ONGOING)
-            {
-                play(board);
-                state = gameStatus(board);
-            }
-            // Handle end of game and ask if the user wants to play again
-            std::cout << "Do you want to play again? (y/n): ";
-            char response;
-            std::cin >> response;
-            playAgain = (response == 'y' || response == 'Y');
+            play(board);
+            state = gameStatus(board);
         }
+        // Handle end of game and ask if the user wants to play again
+        std::cout << "Do you want to play again? (y/n): ";
+        char response;
+        std::cin >> response;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        playAgain = (response == 'y' || response == 'Y');
     }
     return 0;
 }
