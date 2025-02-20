@@ -1,3 +1,4 @@
+//AI used to help with templating and game logic. Manual testing was done to ensure the game works as intended. Bugfixing and UI was also all done by me.
 #include <iostream>
 #include <vector>
 #include <limits>
@@ -164,7 +165,7 @@ void play(std::vector<std::vector<Token>> &board)
         int col;
         std::cout << "\nPlayer " << (currentPlayer == Token::PLAYER_1 ? "1 (X)" : "2 (O)") << ", enter column (1-7): ";
         std::cin >> col;
-        if (std::cin.fail() || col < 1 || col > 7 || !dropToken(board, col - 1, currentPlayer))
+        if (std::cin.fail() || col < 1 || col > 7 || std::cin.peek() != '\n' || !dropToken(board, col - 1, currentPlayer))
         {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -179,15 +180,15 @@ void play(std::vector<std::vector<Token>> &board)
             printBoard(board);
             if (state == GameState::PLAYER_1_WINS)
             {
-                std::cout << "\n-------------------------------------------\n\nPlayer 1 (X) wins!\n\n-------------------------------------------\n\n";
+                std::cout << "\nPlayer 1 (X) wins!\n\n-------------------------------------------\n\n";
             }
             else if (state == GameState::PLAYER_2_WINS)
             {
-                std::cout << "\n-------------------------------------------\nPlayer 2 (O) wins!\n-------------------------------------------\n";
+                std::cout << "\nPlayer 2 (O) wins!\n\n-------------------------------------------\n\n";
             }
             else if (state == GameState::DRAW)
             {
-                std::cout << "\n-------------------------------------------\nThe game is a draw!\n-------------------------------------------\n";
+                std::cout << "\nThe game is a draw!\n\n-------------------------------------------\n\n";
             }
             break;
         }
@@ -215,11 +216,44 @@ int main()
             state = gameStatus(board);
         }
         // Handle end of game and ask if the user wants to play again
-        std::cout << "Do you want to play again? (y/n): ";
         char response;
-        std::cin >> response;
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        playAgain = (response == 'y' || response == 'Y');
-    }
+        bool validResponse = false;
+        while (!validResponse)
+        {
+            std::cout << "Do you want to play again? (y/n): ";
+            std::cin >> response;
+            if (std::cin.fail() || std::cin.peek() != '\n')
+            {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "\n-------------------------------------------\n";
+            std::cout << "\nInvalid input. Please enter 'y' or 'n'.\n\n";
+            std::cout << "-------------------------------------------\n\n";
+            continue;
+            }
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            if (response == 'y' || response == 'Y' || response == 'n' || response == 'N')
+            {
+            validResponse = true;
+            playAgain = (response == 'y' || response == 'Y');
+            if (!playAgain)
+            {
+                std::cout << "\n-------------------------------------------\n";
+                std::cout << "\nThanks for playing!\n\n";
+                std::cout << "-------------------------------------------\n\n";
+            }
+            }
+            else
+            {
+            std::cout << "\n-------------------------------------------\n";
+            std::cout << "\nInvalid input. Please enter 'y' or 'n'.\n\n";
+            std::cout << "-------------------------------------------\n\n";
+            }
+        }
+        if (playAgain)
+        {
+            std::cout << "\n";
+        }
+        }
     return 0;
 }
