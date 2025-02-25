@@ -40,7 +40,7 @@ int main()
     }
     std::cout << std::endl;
 
-    // Find and prints the sum using an iterator loop
+    // Prints sum using an iterator loop
     int sumEven = 0;
     for (auto it = numbers.begin(); it != numbers.end(); ++it)
     {

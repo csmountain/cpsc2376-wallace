@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <numeric> // For std::accumulate
+#include <numeric> 
 #include <limits>
 
 int main()
@@ -25,12 +25,12 @@ int main()
         }
     }
 
-    // Clear the error state caused by non-integer input
+    // Clears error caused by non-integer input
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     // Print the numbers in the same order
-    std::cout << "\nYou entered: ";
+    std::cout << "You entered: ";
     for (size_t i = 0; i < numbers.size(); ++i)
     {
         std::cout << numbers[i];
@@ -41,15 +41,15 @@ int main()
     }
     std::cout << std::endl;
 
-    // Calculate the sum of all elements in the vector
+    // Calculates sum of all elements in the vector
     int sum = std::accumulate(numbers.begin(), numbers.end(), 0);
 
     // Calculate the product of all elements in the vector
     int product = std::accumulate(numbers.begin(), numbers.end(), 1, std::multiplies<int>());
 
     // Print the results
-    std::cout << "Sum of all elements: " << sum << std::endl;
-    std::cout << "Product of all elements: " << product << std::endl;
+    std::cout << "\nSum of all elements: " << sum << std::endl;
+    std::cout << "\nProduct of all elements: " << product << std::endl;
 
     return 0;
 }
