@@ -1,12 +1,14 @@
 #include <iostream>
 #include <vector>
-#include <numeric>   // For std::accumulate
-#include <algorithm> // For std::for_each
+#include <numeric>   
+#include <algorithm> 
 #include <limits>
+#include <sstream> 
 
 int main()
 {
     std::vector<int> numbers;
+    std::string input;
     int number;
     int count = 1;
     const int maxCount = 5;
@@ -14,21 +16,24 @@ int main()
     while (count <= maxCount)
     {
         std::cout << "Integer " << count << " out of " << maxCount << " (press any non-numerical key and enter to stop the program): ";
-        if (std::cin >> number)
+        std::getline(std::cin, input);
+        std::stringstream ss(input);
+
+        if (ss >> number && ss.eof())
         {
             numbers.push_back(number);
             count++;
             std::cout << "\n";
+        }
+        else if (input.find('.') != std::string::npos)
+        {
+            std::cout << "Error: Please enter a valid integer.\n";
         }
         else
         {
             break;
         }
     }
-
-    // Clear the error state caused by non-integer input
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     // Print the numbers in the same order
     std::cout << "You entered: ";
@@ -45,16 +50,12 @@ int main()
     // Use std::for_each with a lambda function to print each element squared
     std::cout << "Squared values: ";
     std::for_each(numbers.begin(), numbers.end(), [](int n)
-    {
-        std::cout << static_cast<long long>(n) * n << " ";
-    });
+        { std::cout << static_cast<long long>(n) * n << " "; });
     std::cout << std::endl;
 
     // Use a lambda function with std::accumulate to sum up all squared values
     long long sumOfSquares = std::accumulate(numbers.begin(), numbers.end(), 0LL, [](long long sum, int n)
-    {
-        return sum + static_cast<long long>(n) * n;
-    });
+        { return sum + static_cast<long long>(n) * n; });
 
     // Print the result
     std::cout << "Sum of squared values: " << sumOfSquares << std::endl;
