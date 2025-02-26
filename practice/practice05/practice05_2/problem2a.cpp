@@ -1,8 +1,9 @@
+// AI Used to help with creating templates, some bug fixes, and comments. UI and large amounts of bugfixing done manually.
 #include <iostream>
 #include <vector>
 #include <numeric>
 #include <limits>
-#include <sstream> // For std::stringstream
+#include <sstream> 
 
 int main()
 {
@@ -26,7 +27,7 @@ int main()
         }
         else if (input.find('.') != std::string::npos)
         {
-            std::cout << "Error: Please enter a valid integer.\n";
+            std::cout << "\n***Error: Please enter a valid integer.***\n\n";
         }
         else
         {
@@ -34,8 +35,8 @@ int main()
         }
     }
 
-    // Print the numbers in the same order
-    std::cout << "You entered: ";
+    // Prints numbers in the same order
+    std::cout << "\nYou entered: ";
     for (size_t i = 0; i < numbers.size(); ++i)
     {
         std::cout << numbers[i];
@@ -49,7 +50,7 @@ int main()
     // Calculates sum of all elements in the vector
     int sum = std::accumulate(numbers.begin(), numbers.end(), 0);
 
-    // Calculate the product of all elements in the vector using long long
+    // Calculates product of all elements in the vector 
     long long product = std::accumulate(numbers.begin(), numbers.end(), 1LL, std::multiplies<long long>());
 
     // Print the results

@@ -1,3 +1,4 @@
+// AI Used to help with creating templates, some bug fixes, and comments. UI and large amounts of bugfixing done manually.
 #include <iostream>
 #include <vector>
 #include <numeric>   
@@ -27,7 +28,7 @@ int main()
         }
         else if (input.find('.') != std::string::npos)
         {
-            std::cout << "Error: Please enter a valid integer.\n";
+            std::cout << "\n***Error: Please enter a valid integer.***\n\n";
         }
         else
         {
@@ -36,7 +37,7 @@ int main()
     }
 
     // Print the numbers in the same order
-    std::cout << "You entered: ";
+    std::cout << "\nYou entered: ";
     for (size_t i = 0; i < numbers.size(); ++i)
     {
         std::cout << numbers[i];
@@ -48,7 +49,7 @@ int main()
     std::cout << std::endl;
 
     // Use std::for_each with a lambda function to print each element squared
-    std::cout << "Squared values: ";
+    std::cout << "\nSquared values: ";
     std::for_each(numbers.begin(), numbers.end(), [](int n)
         { std::cout << static_cast<long long>(n) * n << " "; });
     std::cout << std::endl;
@@ -58,7 +59,7 @@ int main()
         { return sum + static_cast<long long>(n) * n; });
 
     // Print the result
-    std::cout << "Sum of squared values: " << sumOfSquares << std::endl;
+    std::cout << "\nSum of squared values: " << sumOfSquares << std::endl;
 
     return 0;
 }
