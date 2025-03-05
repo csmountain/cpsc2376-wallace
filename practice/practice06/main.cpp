@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Fraction.h"
 #include "Fraction.cpp"
+#include "MixedFraction.h"
+#include "MixedFraction.cpp"
 
 int main()
 {
@@ -29,6 +31,12 @@ int main()
 
         Fraction f7 = f2 / f3;
         std::cout << "f2 / f3 = " << f7 << std::endl;
+
+        MixedFraction mf1(2, 3, 4);
+        std::cout << "MixedFraction mf1: " << mf1 << std::endl;
+
+        MixedFraction mf2(f4);
+        std::cout << "MixedFraction mf2 (from f4): " << mf2 << std::endl;
     }
     catch (const std::invalid_argument &e)
     {

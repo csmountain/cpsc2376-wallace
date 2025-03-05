@@ -6,7 +6,7 @@
 
 class Fraction
 {
-private:
+protected:
     int numerator;
     int denominator;
     void simplify(); // Helper function to simplify the fraction
