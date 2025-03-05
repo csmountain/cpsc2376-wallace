@@ -1,46 +1,127 @@
 #include <iostream>
+#include <limits>
+#include <sstream>
 #include "Fraction.h"
 #include "Fraction.cpp"
 #include "MixedFraction.h"
 #include "MixedFraction.cpp"
 
+void displayMenu()
+{
+    std::cout << "\nOptions:\n";
+    std::cout << "1. Enter a fraction manually\n";
+    std::cout << "2. Add a fraction\n";
+    std::cout << "3. Subtract a fraction\n";
+    std::cout << "4. Multiply by a fraction\n";
+    std::cout << "5. Divide by a fraction\n";
+    std::cout << "6. Display as Mixed Fraction\n";
+    std::cout << "7. Clear Fraction\n";
+    std::cout << "8. Exit\n";
+    std::cout << "Choose an option: ";
+}
+
+Fraction enterFraction()
+{
+    int num, denom;
+    std::string input;
+    while (true)
+    {
+        std::cout << "Enter numerator: ";
+        std::getline(std::cin, input);
+        std::stringstream ss(input);
+        if (ss >> num && ss.eof())
+        {
+            break;
+        }
+        std::cout << "Invalid input. Please enter an integer.\n";
+    }
+    while (true)
+    {
+        std::cout << "Enter denominator: ";
+        std::getline(std::cin, input);
+        std::stringstream ss(input);
+        if (ss >> denom && ss.eof())
+        {
+            break;
+        }
+        std::cout << "Invalid input. Please enter an integer.\n";
+    }
+    return Fraction(num, denom);
+}
+
+int getMenuChoice()
+{
+    int choice;
+    std::string input;
+    while (true)
+    {
+        std::getline(std::cin, input);
+        std::stringstream ss(input);
+        if (ss >> choice && ss.eof())
+        {
+            break;
+        }
+        std::cout << "Invalid option. Please enter an integer between 1 and 8.\n";
+    }
+    return choice;
+}
+
 int main()
 {
-    try
+    Fraction currentFraction;
+    int choice;
+
+    while (true)
     {
-        Fraction f1;
-        Fraction f2(3, 4);
-        Fraction f3(6, 8);
+        std::cout << "\nCurrent Fraction: " << currentFraction << "\n";
+        displayMenu();
+        choice = getMenuChoice();
 
-        std::cout << "Fraction f1: " << f1 << std::endl;
-        std::cout << "Fraction f2: " << f2 << std::endl;
-        std::cout << "Fraction f3: " << f3 << std::endl;
-
-        f3.setNumerator(9);
-        f3.setDenominator(12);
-        std::cout << "Fraction f3 after setting new values: " << f3 << std::endl;
-
-        Fraction f4 = f2 + f3;
-        std::cout << "f2 + f3 = " << f4 << std::endl;
-
-        Fraction f5 = f2 - f3;
-        std::cout << "f2 - f3 = " << f5 << std::endl;
-
-        Fraction f6 = f2 * f3;
-        std::cout << "f2 * f3 = " << f6 << std::endl;
-
-        Fraction f7 = f2 / f3;
-        std::cout << "f2 / f3 = " << f7 << std::endl;
-
-        MixedFraction mf1(2, 3, 4);
-        std::cout << "MixedFraction mf1: " << mf1 << std::endl;
-
-        MixedFraction mf2(f4);
-        std::cout << "MixedFraction mf2 (from f4): " << mf2 << std::endl;
-    }
-    catch (const std::invalid_argument &e)
-    {
-        std::cerr << "Error: " << e.what() << std::endl;
+        try
+        {
+            if (choice == 1)
+            {
+                currentFraction = enterFraction();
+            }
+            else if (choice == 2)
+            {
+                currentFraction = currentFraction + enterFraction();
+            }
+            else if (choice == 3)
+            {
+                currentFraction = currentFraction - enterFraction();
+            }
+            else if (choice == 4)
+            {
+                currentFraction = currentFraction * enterFraction();
+            }
+            else if (choice == 5)
+            {
+                currentFraction = currentFraction / enterFraction();
+            }
+            else if (choice == 6)
+            {
+                MixedFraction mixed(currentFraction);
+                std::cout << "Mixed Fraction: " << mixed << "\n";
+            }
+            else if (choice == 7)
+            {
+                currentFraction = Fraction();
+            }
+            else if (choice == 8)
+            {
+                std::cout << "Exiting...\n";
+                break;
+            }
+            else
+            {
+                std::cout << "Invalid option. Please enter an integer between 1 and 8.\n";
+            }
+        }
+        catch (const std::invalid_argument &e)
+        {
+            std::cerr << "Error: " << e.what() << std::endl;
+        }
     }
 
     return 0;
