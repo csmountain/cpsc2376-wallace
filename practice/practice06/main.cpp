@@ -1,3 +1,4 @@
+// AI Used to help with creating templates, some bug fixes, and comments. UI and large amounts of bugfixing done manually.
 #include <iostream>
 #include <limits>
 #include <sstream>
@@ -6,10 +7,10 @@
 #include "MixedFraction.h"
 #include "MixedFraction.cpp"
 
-void displayMenu()
+void displayMenu() // Function to display the menu
 {
-    std::cout << "\nOptions:\n";
-    std::cout << "1. Enter a fraction manually\n";
+    std::cout << "\nFraction Options:\n";
+    std::cout << "\n1. Enter a fraction manually\n";
     std::cout << "2. Add a fraction\n";
     std::cout << "3. Subtract a fraction\n";
     std::cout << "4. Multiply by a fraction\n";
@@ -17,7 +18,7 @@ void displayMenu()
     std::cout << "6. Display as Mixed Fraction\n";
     std::cout << "7. Clear Fraction\n";
     std::cout << "8. Exit\n";
-    std::cout << "Choose an option: ";
+    std::cout << "\nChoose an option: ";
 }
 
 Fraction enterFraction()
@@ -26,26 +27,30 @@ Fraction enterFraction()
     std::string input;
     while (true)
     {
-        std::cout << "Enter numerator: ";
+        std::cout << "\nEnter numerator: ";
         std::getline(std::cin, input);
-        std::stringstream ss(input);
-        if (ss >> num && ss.eof())
+        std::stringstream ss(input); // stringstream used to check if input is an integer
+        if (ss >> num && ss.eof()) 
         {
+            std::cout << std::endl;
             break;
         }
-        std::cout << "Invalid input. Please enter an integer.\n";
+        std::cout << "\nInvalid input. Please enter an integer.\n";
     }
     while (true)
     {
         std::cout << "Enter denominator: ";
         std::getline(std::cin, input);
-        std::stringstream ss(input);
+        std::stringstream ss(input); // stringstream used to check if input is an integer
         if (ss >> denom && ss.eof())
         {
+            std::cout << std::endl;
             break;
         }
-        std::cout << "Invalid input. Please enter an integer.\n";
+        std::cout << "\nInvalid input. Please enter an integer.\n\n";
     }
+    std::cout << "--------------------------------------------------------------------\n";
+
     return Fraction(num, denom);
 }
 
@@ -61,7 +66,7 @@ int getMenuChoice()
         {
             break;
         }
-        std::cout << "Invalid option. Please enter an integer between 1 and 8.\n";
+        std::cout << "\nInvalid option. Please enter an integer between 1 and 8.\n\nChoose an option: ";
     }
     return choice;
 }
@@ -73,7 +78,7 @@ int main()
 
     while (true)
     {
-        std::cout << "\nCurrent Fraction: " << currentFraction << "\n";
+        std::cout << "Current Fraction: " << currentFraction << "\n";
         displayMenu();
         choice = getMenuChoice();
 
@@ -102,10 +107,12 @@ int main()
             else if (choice == 6)
             {
                 MixedFraction mixed(currentFraction);
-                std::cout << "Mixed Fraction: " << mixed << "\n";
+                std::cout << "\nMixed Fraction: " << mixed << "\n\n";
+                std::cout << "--------------------------------------------------------------------\n";
             }
             else if (choice == 7)
             {
+                std::cout << "--------------------------------------------------------------------\n";
                 currentFraction = Fraction();
             }
             else if (choice == 8)
@@ -115,10 +122,10 @@ int main()
             }
             else
             {
-                std::cout << "Invalid option. Please enter an integer between 1 and 8.\n";
+                std::cout << "\nInvalid option. Please enter an integer between 1 and 8.\n\n";
             }
         }
-        catch (const std::invalid_argument &e)
+        catch (const std::invalid_argument &e) // Catch invalid_argument exceptions
         {
             std::cerr << "Error: " << e.what() << std::endl;
         }

@@ -1,3 +1,4 @@
+// AI Used to help with creating templates, some bug fixes, and comments. UI and large amounts of bugfixing done manually.
 #include "Fraction.h"
 
 Fraction::Fraction(int num, int denom) : numerator(num), denominator(denom)

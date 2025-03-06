@@ -1,3 +1,4 @@
+// AI Used to help with creating templates, some bug fixes, and comments. UI and large amounts of bugfixing done manually.
 #include "MixedFraction.h"
 
 MixedFraction::MixedFraction(int whole, int num, int denom) : Fraction(num, denom), wholeNumber(whole)
