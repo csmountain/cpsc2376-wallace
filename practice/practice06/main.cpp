@@ -30,7 +30,7 @@ Fraction enterFraction()
         std::cout << "\nEnter numerator: ";
         std::getline(std::cin, input);
         std::stringstream ss(input); // stringstream used to check if input is an integer
-        if (ss >> num && ss.eof()) 
+        if (ss >> num && ss.eof())
         {
             std::cout << std::endl;
             break;
@@ -49,7 +49,6 @@ Fraction enterFraction()
         }
         std::cout << "\nInvalid input. Please enter an integer.\n\n";
     }
-    std::cout << "--------------------------------------------------------------------\n";
 
     return Fraction(num, denom);
 }
@@ -87,22 +86,27 @@ int main()
             if (choice == 1)
             {
                 currentFraction = enterFraction();
+                std::cout << "--------------------------------------------------------------------\n";
             }
             else if (choice == 2)
             {
                 currentFraction = currentFraction + enterFraction();
+                std::cout << "--------------------------------------------------------------------\n";
             }
             else if (choice == 3)
             {
                 currentFraction = currentFraction - enterFraction();
+                std::cout << "--------------------------------------------------------------------\n";
             }
             else if (choice == 4)
             {
                 currentFraction = currentFraction * enterFraction();
+                std::cout << "--------------------------------------------------------------------\n";
             }
             else if (choice == 5)
             {
                 currentFraction = currentFraction / enterFraction();
+                std::cout << "--------------------------------------------------------------------\n";
             }
             else if (choice == 6)
             {
@@ -112,12 +116,12 @@ int main()
             }
             else if (choice == 7)
             {
-                std::cout << "--------------------------------------------------------------------\n";
+                std::cout << "\n--------------------------------------------------------------------\n";
                 currentFraction = Fraction();
             }
             else if (choice == 8)
             {
-                std::cout << "Exiting...\n";
+                std::cout << "\nExiting...\n";
                 break;
             }
             else
@@ -128,6 +132,7 @@ int main()
         catch (const std::invalid_argument &e) // Catch invalid_argument exceptions
         {
             std::cerr << "Error: " << e.what() << std::endl;
+            std::cout << "\n--------------------------------------------------------------------\n";
         }
     }
 
