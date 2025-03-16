@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <memory>
 #include <sstream>
 
 class Employee
@@ -82,12 +81,12 @@ public:
     }
 };
 
-void loadEmployees(const std::string &filename, std::vector<std::unique_ptr<Employee>> &employees)
+void loadEmployees(const std::string &filename, std::vector<Employee *> &employees)
 {
     std::ifstream file(filename);
     if (!file)
     {
-        std::cerr << "Error opening file: " << filename << "\n";
+        std::cerr << "Error opening file: " << filename << "\n\n";
         return;
     }
     std::string line;
@@ -98,43 +97,48 @@ void loadEmployees(const std::string &filename, std::vector<std::unique_ptr<Empl
         int id;
         if (!(iss >> type >> id >> name))
         {
-            std::cerr << "Invalid data format in file: " << line << "\n";
+            std::cerr << "Invalid data format in file: " << line << "\n\n";
             continue;
         }
         if (type == "Salaried")
         {
             double salary;
             if (iss >> salary)
-                employees.push_back(std::make_unique<SalariedEmployee>(name, id, salary));
+                employees.push_back(new SalariedEmployee(name, id, salary));
         }
         else if (type == "Hourly")
         {
             double rate;
             int hours;
             if (iss >> rate >> hours)
-                employees.push_back(std::make_unique<HourlyEmployee>(name, id, rate, hours));
+                employees.push_back(new HourlyEmployee(name, id, rate, hours));
         }
         else if (type == "Commission")
         {
             double base, sales, rate;
             if (iss >> base >> sales >> rate)
-                employees.push_back(std::make_unique<CommissionEmployee>(name, id, base, sales, rate));
+                employees.push_back(new CommissionEmployee(name, id, base, sales, rate));
         }
         else
         {
-            std::cerr << "Unknown employee type: " << type << "\n";
+            std::cerr << "Unknown employee type: " << type << "\n\n";
         }
     }
 }
 
 int main()
 {
-    std::vector<std::unique_ptr<Employee>> employees;
+    std::vector<Employee *> employees;
     loadEmployees("employees.txt", employees);
 
     for (const auto &emp : employees)
     {
         emp->displayInfo();
+    }
+
+    for (auto emp : employees)
+    {
+        delete emp;
     }
     return 0;
 }
