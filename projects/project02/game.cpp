@@ -1,3 +1,4 @@
+// G
 #include "game.h"
 
 Game::Game() : board(ROWS, std::vector<Token>(COLS, EMPTY)), currentPlayer(PLAYER_1) {}

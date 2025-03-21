@@ -1,3 +1,4 @@
+// Same code used as in Project 1 modified to use game.h and game.cpp, meaning little bugfixing was needed after plugging in the old values to the template.
 #include "game.h"
 #include "game.cpp"
 #include <iostream>

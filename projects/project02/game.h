@@ -1,9 +1,11 @@
+// Header file for the Game class that implements the game logic for Connect Four
 #ifndef GAME_H
 #define GAME_H
 
 #include <vector>
 #include <iostream>
 
+// Plain enum for game status
 enum Status
 {
     ONGOING,
@@ -12,6 +14,7 @@ enum Status
     DRAW
 };
 
+// Plain enum for player tokens
 enum Token
 {
     EMPTY,
@@ -19,6 +22,7 @@ enum Token
     PLAYER_2
 };
 
+// Entire game implementation in this class
 class Game
 {
 private:
@@ -33,7 +37,7 @@ public:
     Game();
     void play(int col);
     Status status() const;
-    friend std::ostream &operator<<(std::ostream &os, const Game &game);
+    friend std::ostream &operator<<(std::ostream &os, const Game &game); // Allowed alternative output operator for printing the game board
 };
 
 #endif // GAME_H
