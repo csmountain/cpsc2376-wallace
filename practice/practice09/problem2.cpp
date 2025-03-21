@@ -9,9 +9,8 @@ struct Point
 // Function to calculate the midpoint between two points (returns a Point object)
 Point calcMidpoint(const Point *p1, const Point *p2)
 {
-    // TODO: Implement midpoint formula using p1 and p2
-    // Hint: midpoint x = (x1 + x2) / 2, midpoint y = (y1 + y2) / 2
-    return Point{0.0f, 0.0f}; // Placeholder return value
+    // Implemented midpoint formula using p1 and p2
+    return Point{(p1->x + p2->x) / 2, (p1->y + p2->y) / 2};
 }
 
 int main()
@@ -21,7 +20,7 @@ int main()
     Point b{5.0f, 6.0f};
 
     // Step 2: Call calcMidpoint using pointers to 'a' and 'b'
-    Point mid = calcMidpoint(/* Fill this in */);
+    Point mid = calcMidpoint(&a, &b); // mid should now hold the midpoint coordinates
 
     // Step 3: Print the midpoint coordinates
     std::cout << "Midpoint is at (" << mid.x << ", " << mid.y << ")" << std::endl; // Should be (3, 4)
