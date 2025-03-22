@@ -83,21 +83,21 @@ int main()
             if (response == 'y' || response == 'Y')
             {
             playAgain = true;
+            std::cout << "\nNew game started!\n\n";
             break;
             }
             else if (response == 'n' || response == 'N')
             {
             playAgain = false;
-            std::cout << "\nThanks for playing!\n";
+            std::cout << "\nThanks for playing!\n\n";
             break; // Exit the replay loop
             }
             else
             {
-            std::cout << "Invalid input. Please enter 'y' for yes or 'n' for no.\n\n";
+            std::cout << "\nInvalid input. Please enter 'y' for yes or 'n' for no.\n";
             }
         }
 
-        std::cout << "\nThanks for playing!\n\n";
     }
     return 0;
 }
