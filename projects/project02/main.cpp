@@ -1,6 +1,7 @@
 // Same code used as in Project 1 modified to use game.h and game.cpp, meaning little bugfixing was needed after plugging in the old values to the template.
-#include "game.h"
+// AI Used to help with creating templates, some bug fixes, and comments. UI and large amounts of bugfixing done manually.
 #include "game.cpp"
+#include "game.h"
 #include <iostream>
 #include <limits>
 
@@ -27,15 +28,29 @@ int main()
         while (game.status() == ONGOING)
         {
             std::cout << game;
-            int col;
-            std::cout << "\nEnter column (1-7): ";
-            std::cin >> col;
 
-            if (std::cin.fail() || col < 1 || col > 7)
+            // Display the current player's turn
+            Token currentPlayer = game.getCurrentPlayer();
+            std::cout << "\nPlayer " << (currentPlayer == PLAYER_1 ? "1 (X)" : "2 (O)") << ", enter column (1-7): ";
+
+            int col;
+            std::cin >> col;
+            std::cout << "\n";
+
+
+            if (std::cin.fail() || std::cin.peek() != '\n' || !(col == 1 || col == 2 || col == 3 || col == 4 || col == 5 || col == 6 || col == 7))
             {
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cout << "\nInvalid input. Please try again.\n";
+                std::cout << "\nInvalid input. Please enter an integer between 1 and 7.\n\n";
+                continue;
+            }
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+            // Check if the column is full
+            if (game.isColumnFull(col - 1))
+            {
+                std::cout << "\nColumn " << col << " is full. Please choose a different column.\n\n";
                 continue;
             }
 
@@ -52,11 +67,37 @@ int main()
             std::cout << "\nThe game is a draw!\n";
 
         char response;
-        std::cout << "Do you want to play again? (y/n): ";
-        std::cin >> response;
-        playAgain = (response == 'y' || response == 'Y');
-    }
+        while (true)
+        {
+            std::cout << "\nDo you want to play again? (y/n): ";
+            std::cin >> response;
 
-    std::cout << "\nThanks for playing!\n";
+            if (std::cin.fail() || std::cin.peek() != '\n')
+            {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "\nInvalid input. Please enter 'y' for yes or 'n' for no.\n";
+            continue;
+            }
+
+            if (response == 'y' || response == 'Y')
+            {
+            playAgain = true;
+            break;
+            }
+            else if (response == 'n' || response == 'N')
+            {
+            playAgain = false;
+            std::cout << "\nThanks for playing!\n";
+            break; // Exit the replay loop
+            }
+            else
+            {
+            std::cout << "Invalid input. Please enter 'y' for yes or 'n' for no.\n\n";
+            }
+        }
+
+        std::cout << "\nThanks for playing!\n\n";
+    }
     return 0;
 }

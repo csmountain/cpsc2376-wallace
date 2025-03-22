@@ -1,4 +1,4 @@
-// Header file for the Game class that implements the game logic for Connect Four
+// AI Used to help with creating templates, some bug fixes, and comments. UI and large amounts of bugfixing done manually.
 #ifndef GAME_H
 #define GAME_H
 
@@ -37,7 +37,9 @@ public:
     Game();
     void play(int col);
     Status status() const;
-    friend std::ostream &operator<<(std::ostream &os, const Game &game); // Allowed alternative output operator for printing the game board
+    Token getCurrentPlayer() const; // Added method to get the current player
+    bool isColumnFull(int col) const; // New method to check if a column is full
+    friend std::ostream &operator<<(std::ostream &os, const Game &game); // Output operator for printing the game board
 };
 
 #endif // GAME_H

@@ -1,4 +1,4 @@
-// G
+// AI Used to help with creating templates, some bug fixes, and comments. UI and large amounts of bugfixing done manually.
 #include "game.h"
 
 Game::Game() : board(ROWS, std::vector<Token>(COLS, EMPTY)), currentPlayer(PLAYER_1) {}
@@ -76,6 +76,14 @@ bool Game::checkWin(Token token) const
     return false;
 }
 
+bool Game::isColumnFull(int col) const
+{
+    if (col < 0 || col >= COLS) // Check for invalid column
+        return true; // Treat out-of-bounds columns as "full"
+
+    return board[0][col] != EMPTY; // If the top row of the column is not EMPTY, the column is full
+}
+
 Status Game::status() const
 {
     if (checkWin(PLAYER_1))
@@ -93,6 +101,11 @@ Status Game::status() const
     }
 
     return DRAW;
+}
+
+Token Game::getCurrentPlayer() const
+{
+    return currentPlayer;
 }
 
 std::ostream &operator<<(std::ostream &os, const Game &game)
