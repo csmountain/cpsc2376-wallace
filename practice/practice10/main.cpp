@@ -44,7 +44,16 @@ void printAllAreas(const std::vector<std::unique_ptr<Shape>> &shapes)
 {
     for (const auto &shape : shapes)
     {
-        std::cout << "Area: " << std::fixed << std::setprecision(4) << shape->getArea() << std::endl;
+        double area = shape->getArea();
+        // Check if the area is a whole number
+        if (std::floor(area) == area)
+        {
+            std::cout << "Area: " << static_cast<int>(area) << std::endl; // Print as integer
+        }
+        else
+        {
+            std::cout << "Area: " << std::fixed << std::setprecision(4) << area << std::endl; // Print as double
+        }
     }
 }
 
