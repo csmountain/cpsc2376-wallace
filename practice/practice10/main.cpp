@@ -47,3 +47,50 @@ void printAllAreas(const std::vector<std::unique_ptr<Shape>> &shapes)
         std::cout << "Area: " << std::fixed << std::setprecision(4) << shape->getArea() << std::endl;
     }
 }
+
+int main()
+{
+    std::ifstream inputFile("shapes.txt");
+    if (!inputFile)
+    {
+        std::cerr << "Error: Could not open file 'shapes.txt'." << std::endl;
+        return 1;
+    }
+
+    std::vector<std::unique_ptr<Shape>> shapes;
+    std::string line;
+
+    while (std::getline(inputFile, line)) // Read each line from the file
+    {
+        std::istringstream iss(line);
+        std::string shapeType;
+        iss >> shapeType;
+
+        if (shapeType == "rectangle")
+        {
+            double width, height;
+            if (iss >> width >> height)
+            {
+                shapes.push_back(std::make_unique<Rectangle>(width, height)); // unique_ptr to Rectangle object
+            }
+        }
+        else if (shapeType == "circle")
+        {
+            double radius;
+            if (iss >> radius)
+            {
+                shapes.push_back(std::make_unique<Circle>(radius)); // unique_ptr to Circle object
+            }
+        }
+        else
+        {
+            std::cerr << "Error: Unknown shape type '" << shapeType << "' in line: " << line << std::endl;
+        }
+    }
+    
+    inputFile.close();
+
+    printAllAreas(shapes);
+
+    return 0;
+}
