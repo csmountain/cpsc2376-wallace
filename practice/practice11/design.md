@@ -23,3 +23,45 @@ The program involves three main classes: `Game`, `Customer`, and `LendingRecord`
 - **Return game**: Mark a game as returned.
 
 ---
+
+## 3. Class Design
+
+### Class: `Game`
+```cpp
+class Game {
+public:
+    std::string title;
+    int totalCopies;
+    int availableCopies;
+
+    Game(std::string title, int totalCopies);
+    void updateAvailability(int change);
+};
+```
+
+### Class: `Customer`
+```cpp
+class Customer {
+public:
+    std::string name;
+    int customerId;
+
+    Customer(std::string name, int customerId);
+};
+```
+
+### Class: `LendingRecord`
+```cpp
+class LendingRecord {
+public:
+    int recordId;
+    int customerId;
+    std::string gameTitle;
+    std::string dueDate;
+
+    LendingRecord(int recordId, int customerId, std::string gameTitle, std::string dueDate);
+    void markReturned();
+};
+```
+
+---
