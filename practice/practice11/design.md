@@ -65,3 +65,34 @@ public:
 ```
 
 ---
+
+## 4. Class Diagram
+
+```mermaid
+classDiagram
+    class Game {
+        +std::string title
+        +int totalCopies
+        +int availableCopies
+        +Game(std::string title, int totalCopies)
+        +void updateAvailability(int change)
+    }
+
+    class Customer {
+        +std::string name
+        +int customerId
+        +Customer(std::string name, int customerId)
+    }
+
+    class LendingRecord {
+        +int recordId
+        +int customerId
+        +std::string gameTitle
+        +std::string dueDate
+        +LendingRecord(int recordId, int customerId, std::string gameTitle, std::string dueDate)
+        +void markReturned()
+    }
+
+    Game "1" --> "0..*" LendingRecord : "is borrowed in"
+    Customer "1" --> "0..*" LendingRecord : "creates"
+```
