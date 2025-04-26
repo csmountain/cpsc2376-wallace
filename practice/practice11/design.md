@@ -29,7 +29,7 @@ The program involves four main classes: `Game`, `Customer`, `LendingRecord`, and
 - **Add Game**: Adds a new game to the catalog
 - **Remove Game**: Removes a game from the catalog
 - **Check Overdue Games**: Identify games that are overdue.
-- **Borrowing History**: A record of all past borrowings by a customer.
+- **Borrowing History: A record of all past borrowings by a customer.
 
 ---
 
