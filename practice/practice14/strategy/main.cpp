@@ -59,7 +59,7 @@ class CensorBadWordsFilter : public TextFilterStrategy
 public:
     std::string applyFilter(const std::string &input) override
     {
-        std::unordered_set<std::string> badWords = {"bad", "ugly", "nasty"};
+        std::unordered_set<std::string> badWords = {"comporg", "ugly", "nasty", "c++"};
         std::string result = input;
         for (const auto &word : badWords)
         {
@@ -95,3 +95,68 @@ public:
         return input;
     }
 };
+
+// Main Function
+int main()
+{
+    TextFilterContext context;
+    std::string input;
+    std::string choiceStr;
+    int choice;
+
+    std::cout << "Enter a sentence: ";
+    std::getline(std::cin, input);
+
+    while (true)
+    {
+        std::cout << "\nChoose a filter strategy:\n\n";
+        std::cout << "1. Reverse\n";
+        std::cout << "2. Uppercase\n";
+        std::cout << "3. Remove Vowels\n";
+        std::cout << "4. Censor Bad Words\n";
+        std::cout << "5. Exit\n";
+        std::cout << "\nEnter your choice (1-5): ";
+        std::getline(std::cin, choiceStr);
+
+        try
+        {
+            choice = std::stoi(choiceStr);
+        }
+        catch (const std::invalid_argument &)
+        {
+            std::cout << "Invalid choice. Please try again.\n";
+            continue;
+        }
+
+        if (choice == 1)
+        {
+            context.setStrategy(std::make_shared<ReverseFilter>());
+        }
+        else if (choice == 2)
+        {
+            context.setStrategy(std::make_shared<UppercaseFilter>());
+        }
+        else if (choice == 3)
+        {
+            context.setStrategy(std::make_shared<RemoveVowelsFilter>());
+        }
+        else if (choice == 4)
+        {
+            context.setStrategy(std::make_shared<CensorBadWordsFilter>());
+        }
+        else if (choice == 5)
+        {
+            std::cout << "\nExiting...\n";
+            break;
+        }
+        else
+        {
+            std::cout << "\nInvalid choice. Please try again.\n";
+            continue;
+        }
+
+        std::cout << "\nFiltered result: " << context.applyFilter(input) << "\n";
+    }
+
+    return 0;
+}
