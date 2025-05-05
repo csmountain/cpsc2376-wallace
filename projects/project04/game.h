@@ -5,22 +5,10 @@
 #include <SDL2/SDL.h>
 
 // Enums for game tokens and status
-enum Token
-{
-    EMPTY,
-    PLAYER_1,
-    PLAYER_2
-};
-enum Status
-{
-    ONGOING,
-    PLAYER_1_WINS,
-    PLAYER_2_WINS,
-    DRAW
-};
+enum Token { EMPTY, PLAYER_1, PLAYER_2 };
+enum Status { ONGOING, PLAYER_1_WINS, PLAYER_2_WINS, DRAW };
 
-class Game
-{
+class Game {
 public:
     static const int ROWS = 6;
     static const int COLS = 7;
@@ -32,7 +20,7 @@ public:
     bool isColumnFull(int col) const;
 
     // New method for rendering the game
-    void draw(SDL_Renderer *renderer) const;
+    void draw(SDL_Renderer* renderer) const;
 
 private:
     std::vector<std::vector<Token>> board;
