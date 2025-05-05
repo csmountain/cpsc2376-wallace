@@ -21,10 +21,10 @@ void Game::play(int col)
 
 bool Game::checkWin(Token token) const
 {
-    // Check horizontal
+    // Horizontal check
     for (int row = 0; row < ROWS; ++row)
     {
-        for (int col = 0; col < COLS - 3; ++col)
+        for (int col = 0; col <= COLS - 4; ++col)
         {
             if (board[row][col] == token && board[row][col + 1] == token &&
                 board[row][col + 2] == token && board[row][col + 3] == token)
@@ -34,10 +34,10 @@ bool Game::checkWin(Token token) const
         }
     }
 
-    // Check vertical
+    // Vertical check
     for (int col = 0; col < COLS; ++col)
     {
-        for (int row = 0; row < ROWS - 3; ++row)
+        for (int row = 0; row <= ROWS - 4; ++row)
         {
             if (board[row][col] == token && board[row + 1][col] == token &&
                 board[row + 2][col] == token && board[row + 3][col] == token)
@@ -47,23 +47,10 @@ bool Game::checkWin(Token token) const
         }
     }
 
-    // Check diagonal (bottom-left to top-right)
-    for (int row = 3; row < ROWS; ++row)
+    // Diagonal (top-left to bottom-right) check
+    for (int row = 0; row <= ROWS - 4; ++row)
     {
-        for (int col = 0; col < COLS - 3; ++col)
-        {
-            if (board[row][col] == token && board[row - 1][col + 1] == token &&
-                board[row - 2][col + 2] == token && board[row - 3][col + 3] == token)
-            {
-                return true;
-            }
-        }
-    }
-
-    // Check diagonal (top-left to bottom-right)
-    for (int row = 0; row < ROWS - 3; ++row)
-    {
-        for (int col = 0; col < COLS - 3; ++col)
+        for (int col = 0; col <= COLS - 4; ++col)
         {
             if (board[row][col] == token && board[row + 1][col + 1] == token &&
                 board[row + 2][col + 2] == token && board[row + 3][col + 3] == token)
@@ -73,15 +60,26 @@ bool Game::checkWin(Token token) const
         }
     }
 
+    // Diagonal (bottom-left to top-right) check
+    for (int row = 3; row < ROWS; ++row)
+    {
+        for (int col = 0; col <= COLS - 4; ++col)
+        {
+            if (board[row][col] == token && board[row - 1][col + 1] == token &&
+                board[row - 2][col + 2] == token && board[row - 3][col + 3] == token)
+            {
+                return true;
+            }
+        }
+    }
+
+    // If no win condition is met, return false
     return false;
 }
 
 bool Game::isColumnFull(int col) const
 {
-    if (col < 0 || col >= COLS) // Check for invalid column
-        return true; // Treat out-of-bounds columns as "full"
-
-    return board[0][col] != EMPTY; // If the top row of the column is not EMPTY, the column is full
+    return board[0][col] != EMPTY;
 }
 
 Status Game::status() const
@@ -108,27 +106,64 @@ Token Game::getCurrentPlayer() const
     return currentPlayer;
 }
 
-std::ostream &operator<<(std::ostream &os, const Game &game)
+void Game::draw(SDL_Renderer *renderer) const
 {
-    os << "-------------------------------------------\n";
-    os << "   1     2     3     4     5     6     7\n";
-    os << "___________________________________________\n";
-    for (const auto &row : game.board)
+    // Colors
+    SDL_Color gridColor = {0, 0, 255, 255};      // Blue
+    SDL_Color player1Color = {255, 0, 0, 255};   // Red
+    SDL_Color player2Color = {255, 255, 0, 255}; // Yellow
+    SDL_Color backgroundColor = {0, 0, 0, 255};  // Black (for holes)
+
+    // Grid cell dimensions
+    const int cellSize = 100;
+    const int holeRadius = 40;
+    const int holeOffset = (cellSize - 2 * holeRadius) / 2;
+
+    // Draw grid with circular holes
+    for (int row = 0; row < ROWS; ++row)
     {
-        os << "|     |     |     |     |     |     |     |\n";
-        for (const auto &cell : row)
+        for (int col = 0; col < COLS; ++col)
         {
-            char displayChar = ' ';
-            if (cell == PLAYER_1)
-                displayChar = 'X';
-            else if (cell == PLAYER_2)
-                displayChar = 'O';
-            os << "|  " << displayChar << "  ";
+            // Draw grid cell
+            SDL_Rect cell = {col * cellSize, row * cellSize, cellSize, cellSize};
+            SDL_SetRenderDrawColor(renderer, gridColor.r, gridColor.g, gridColor.b, gridColor.a);
+            SDL_RenderFillRect(renderer, &cell);
+
+            // Draw circular hole
+            int centerX = col * cellSize + cellSize / 2;
+            int centerY = row * cellSize + cellSize / 2;
+            SDL_SetRenderDrawColor(renderer, backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+            for (int w = 0; w < holeRadius * 2; ++w)
+            {
+                for (int h = 0; h < holeRadius * 2; ++h)
+                {
+                    int dx = holeRadius - w; // Horizontal distance from center
+                    int dy = holeRadius - h; // Vertical distance from center
+                    if ((dx * dx + dy * dy) <= (holeRadius * holeRadius))
+                    {
+                        SDL_RenderDrawPoint(renderer, centerX + dx, centerY + dy);
+                    }
+                }
+            }
+
+            // Draw tokens if present
+            if (board[row][col] != EMPTY)
+            {
+                SDL_Color tokenColor = (board[row][col] == PLAYER_1) ? player1Color : player2Color;
+                SDL_SetRenderDrawColor(renderer, tokenColor.r, tokenColor.g, tokenColor.b, tokenColor.a);
+                for (int w = 0; w < holeRadius * 2; ++w)
+                {
+                    for (int h = 0; h < holeRadius * 2; ++h)
+                    {
+                        int dx = holeRadius - w;
+                        int dy = holeRadius - h;
+                        if ((dx * dx + dy * dy) <= (holeRadius * holeRadius))
+                        {
+                            SDL_RenderDrawPoint(renderer, centerX + dx, centerY + dy);
+                        }
+                    }
+                }
+            }
         }
-        os << "|\n";
-        os << "|_____|_____|_____|_____|_____|_____|_____|\n";
     }
-    os << "   1     2     3     4     5     6     7\n";
-    os << "-------------------------------------------\n";
-    return os;
 }
