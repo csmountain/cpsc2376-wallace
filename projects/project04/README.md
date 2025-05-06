@@ -6,14 +6,14 @@ This is a turn-based grid game written in C++ using SDL2. Players take turns pla
 
 ## 🎮 Controls
 
-- Use arrow keys to select a column
-- Press Enter to place a piece
-- Press `R` to restart the game
-- Press `Esc` to exit
+- Use mouse to select a column
+- Press any mouse button to place a piece
+- Press play again after a result to play again
+- Press exit after a result to end the program
 
 ## 🧪 Screenshot
 
-![Screenshot](programming2 ss.png)
+![Screenshot](programming2ss.png)
 
 ## ✨ Extra Features
 
